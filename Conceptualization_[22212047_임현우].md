@@ -16,7 +16,7 @@
 | :---: | :---: |
 | **Name** | 임현우 |
 | **E-mail** | dlagusdn9182@gmail.com |
-| **GitHub** | [Repository Link](git) |
+| **GitHub** | [repository](https://github.com/dlagusdn0204/OSS-Design-Project-Pocket-room-/tree/main) |
 
 <br><br><br>
 

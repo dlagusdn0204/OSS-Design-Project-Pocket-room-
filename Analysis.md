@@ -1,0 +1,70 @@
+<div align="center">
+
+<br><br><br>
+
+# 🏠 **Pocket Room**
+**나만의 스마트한 통합 공과금 관리 솔루션**
+
+<br>
+
+<img width="468" height="510" alt="image" src="https://github.com/user-attachments/assets/6bd60eee-ca92-4f49-a1cc-3a7b4ed26f13" />
+
+<br><br>
+
+
+| **Student No** | 22212047 |
+| :---: | :---: |
+| **Name** | 임현우 |
+| **E-mail** | dlagusdn9182@gmail.com |
+| **GitHub** | [repository](https://github.com/dlagusdn0204/OSS-Design-Project-Pocket-room-/tree/main) |
+
+<br><br><br>
+
+</div>
+
+---
+
+# **Revision history**
+<br>
+
+| Revision date | Version # | Description | Author |
+| :---: | :---: | :---: | :--- |
+| 05/08/2026 | 1.00 | First draft | 임현우 |
+
+<br>
+
+---
+
+# **Contents**
+
+<pre style="display: inline-block; text-align: left; border: none; background: none;">
+1. Introduction
+2. Use case analysis
+3. Domain analysis
+4. User Interface prototype
+5. Glossary
+6. References
+</pre>
+
+</div>
+<br>
+
+---
+
+# 1. Introduction
+
+**1.1 Summary**
+
+> 자취생들에겐 매달 공과금에 대한 부담이 존재한다. 이는 월세 못지않은 부담이며, 매달 일정한 금액으로 나가는 월세와는 달리 전기세와 가스비와 같은 공과금은 각 공과금 납부 업체의 사이트나 앱을 통해 확인해야되는데 이러한 시스템이 통합되어있지않아 일일이 확인해야된다는 불편함이 존재한다. Pocket Room은 이러한 공과금을 포함한 집에 대한 정보들을 한 화면에서 가독성있게 제공한다.
+> Pocket Room을 통해 사용자는 일일이 월별 가스비와 전기세를 확인하기 위해 각 사이트에 접속하거나 집주인의 월세 입금 계좌를 월세계약서에서 찾을 필요 없이 이 앱을 켜서 메인 화면을 통해 이 모든 정보들을 확인하고 접근할 수 있다.
+
+**1.2 Features**
+
+> Pocket Room은 사용자의 월별 공과금(전기세, 가스비), 월세, 집주소 등 집에 대한 정보를 한 눈에 볼 수 있는 인터페이스를 제공하는 앱이다. 다양한 정보들을 통합하여 제공하므로 사용자의 생활비 관리에 편의성을 제공한다.
+
+**1.3 Goal**
+
+> 이번 Analysis 보고서에서는 크게 3가지 정보를 전달하는 목표를 가진다.
+> 1. use case analysis(use case diagram, use case description)를 통해 각 기능의 동작과 다른 동작과의 관계를 정의한다.
+> 2. Domain analysis를 통해 각 클래스 구성에 대해 정리한다.
+> 3. User interface prototype를 통해 각 기능들이 어떻게 작동하는지 대략적인 구상도를 제공한다.

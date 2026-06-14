@@ -1,0 +1,11 @@
+# 의존성 (재설치 가능하므로 보관 안 함)
+node_modules/
+
+# 비밀값 — 절대 커밋/박제 금지 (.env.example만 공유)
+.env
+.env.local
+
+# 로그·임시파일
+*.log
+npm-debug.log*
+.DS_Store

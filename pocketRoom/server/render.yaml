@@ -1,0 +1,28 @@
+# Render Blueprint (선택) — Render 에서 "New + → Blueprint" 로 이 파일을 읽어 서비스를 만듭니다.
+# ⚠️ Git 사용 금지 규칙(CLAUDE.md) 때문에 실제 배포는 사용자가 직접 진행합니다.
+#    이 파일은 배포 설정을 코드로 남겨 두는 문서 역할도 합니다(README 5장 참고).
+#
+# 비밀값(DATABASE_URL, JWT 시크릿)은 여기 적지 않고 sync:false 로 두어
+# Render 대시보드에서 직접 입력합니다(코드/문서에 평문 금지).
+
+services:
+  - type: web
+    name: pocket-room-server
+    runtime: node
+    plan: free
+    rootDir: pocket_room_server
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        sync: false # Render 대시보드에서 직접 입력 (기존 PocketRoom DB의 URL)
+      - key: JWT_ACCESS_SECRET
+        sync: false
+      - key: JWT_REFRESH_SECRET
+        sync: false
+      - key: JWT_ACCESS_EXPIRES
+        value: 15m
+      - key: JWT_REFRESH_EXPIRES
+        value: 14d
+      # PORT 는 Render 가 자동 주입하므로 지정하지 않습니다.

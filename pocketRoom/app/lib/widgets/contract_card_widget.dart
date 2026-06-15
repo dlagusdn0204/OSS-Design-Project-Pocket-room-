@@ -1,12 +1,6 @@
-// 월세 계약 카드 위젯 — ContractCard(데이터)를 화면에 그리는 "액자"입니다.
-//
-// ⚠️ ContractCard(모델, 작업 #2) 와 ContractCardWidget(화면 부품, 이 파일)은
-//    서로 다른 클래스입니다. 하나는 "내용물", 하나는 "그걸 그리는 액자"예요.
-//
-// 계좌번호·주소 옆에 "복사" 버튼이 있어 한 번에 클립보드로 복사됩니다(Sequence 3.3).
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // Clipboard
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 import '../models/contract_card.dart';
@@ -24,11 +18,9 @@ class ContractCardWidget extends StatelessWidget {
     this.onSettingPressed,
   });
 
-  // 천 단위 콤마 통화 포맷 (예: 500000 → "500,000원")
   String _won(int? won) =>
       won == null ? '-' : '${NumberFormat('#,###').format(won)}원';
 
-  // 클립보드 복사 + 안내 스낵바
   void _copy(BuildContext context, String label, String? value) {
     if (value == null || value.isEmpty) return;
     Clipboard.setData(ClipboardData(text: value));
@@ -48,7 +40,6 @@ class ContractCardWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── 헤더: 아이콘 + 제목 + 설정 버튼 ──────────────────
             Row(
               children: [
                 const CardIconBadge(
@@ -70,7 +61,6 @@ class ContractCardWidget extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            // 빈 카드면 안내, 아니면 정보 표시
             if (data.isEmpty)
               const Padding(
                 padding: EdgeInsets.only(right: 12, top: 8, bottom: 8),
@@ -80,7 +70,6 @@ class ContractCardWidget extends StatelessWidget {
                 ),
               )
             else ...[
-              // 월세 금액 (강조)
               Padding(
                 padding: const EdgeInsets.only(right: 12),
                 child: Row(
@@ -108,14 +97,12 @@ class ContractCardWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              // 계좌번호 (복사 가능)
               _CopyRow(
                 label: '계좌번호',
                 value: data.bankAccount ?? '-',
                 onCopy: () => _copy(context, '계좌번호', data.bankAccount),
               ),
               const SizedBox(height: 10),
-              // 집 주소 (복사 가능)
               _CopyRow(
                 label: '집 주소',
                 value: data.address ?? '-',
@@ -129,7 +116,6 @@ class ContractCardWidget extends StatelessWidget {
   }
 }
 
-// 라벨 + 값 + 복사 버튼 한 줄
 class _CopyRow extends StatelessWidget {
   final String label;
   final String value;

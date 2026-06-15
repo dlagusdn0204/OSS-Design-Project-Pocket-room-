@@ -1,7 +1,3 @@
-// 전기요금 카드 위젯 — ElectricityCard(데이터)를 화면에 그리는 "액자"입니다.
-//
-// 당월 요금/사용량을 보여주고, 아래에 월별 추이 미니 차트(fl_chart)를 그립니다.
-// 실제 한전 연동은 stub 이라 더미 이력으로 채워집니다(Design 2.6 / Sequence 3.3).
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -16,11 +12,15 @@ import 'mini_trend_chart.dart';
 class ElectricityCardWidget extends StatelessWidget {
   final ElectricityCard data;
   final VoidCallback? onSettingPressed;
+  final VoidCallback? onRefreshPressed;
+  final bool isRefreshing;
 
   const ElectricityCardWidget({
     super.key,
     required this.data,
     this.onSettingPressed,
+    this.onRefreshPressed,
+    this.isRefreshing = false,
   });
 
   String _won(int? won) =>
@@ -34,7 +34,6 @@ class ElectricityCardWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── 헤더 ──────────────────────────────────────────
             Row(
               children: [
                 const CardIconBadge(
@@ -42,15 +41,27 @@ class ElectricityCardWidget extends StatelessWidget {
                   color: AppTheme.electricityColor,
                 ),
                 const SizedBox(width: 12),
-                const Expanded(
+                Expanded(
                   child: Text(
-                    '전기요금',
-                    style:
-                        TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    '${DateTime.now().month}월 전기요금',
+                    style: const TextStyle(
+                        fontSize: 17, fontWeight: FontWeight.bold),
                   ),
                 ),
-                // 연결 상태 배지
                 LinkBadge(isLinked: data.isLinked),
+                if (onRefreshPressed != null && data.isLinked)
+                  IconButton(
+                    icon: isRefreshing
+                        ? const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.refresh, size: 20),
+                    color: AppTheme.textSecondary,
+                    tooltip: '전기요금 갱신',
+                    onPressed: isRefreshing ? null : onRefreshPressed,
+                  ),
                 CardMenuButton(
                   cardKind: CardKind.electricity,
                   onSettingPressed: onSettingPressed,
@@ -58,7 +69,6 @@ class ElectricityCardWidget extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            // ── 당월 요금 ─────────────────────────────────────
             Padding(
               padding: const EdgeInsets.only(right: 12),
               child: Row(
@@ -95,7 +105,6 @@ class ElectricityCardWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            // ── 미니 차트 ─────────────────────────────────────
             Padding(
               padding: const EdgeInsets.only(right: 12),
               child: MiniTrendChart(

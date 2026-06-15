@@ -1,12 +1,11 @@
-// 월세 계약 카드 모델 — 월세/납부일/계좌/주소 정보를 저장합니다
 
 import 'card.dart';
 
 class ContractCard extends BaseCard {
-  final int? monthlyRentWon;     // 월세 금액 (원 단위)
-  final int? paymentDueDay;      // 납부일 (1~31)
-  final String? bankAccount;     // 납부 계좌번호
-  final String? address;         // 집 주소
+  final int? monthlyRentWon;
+  final int? paymentDueDay;
+  final String? bankAccount;
+  final String? address;
 
   const ContractCard({
     required super.cardId,
@@ -18,7 +17,6 @@ class ContractCard extends BaseCard {
     this.address,
   });
 
-  // 일부 필드만 바꾼 복사본 반환
   ContractCard copyWith({
     int? monthlyRentWon,
     int? paymentDueDay,
@@ -63,7 +61,21 @@ class ContractCard extends BaseCard {
         address: map['address'] as String?,
       );
 
-  // 빈 카드 생성 (방 생성 시 자동으로 만들어짐)
   factory ContractCard.empty({required String cardId, required String roomId}) =>
       ContractCard(cardId: cardId, roomId: roomId);
+
+  factory ContractCard.fromServer({
+    required String roomId,
+    required String cardId,
+    required Map<String, dynamic> data,
+  }) =>
+      ContractCard(
+        cardId: cardId,
+        roomId: roomId,
+        updatedAt: DateTime.now(),
+        monthlyRentWon: (data['rentWon'] as num?)?.toInt(),
+        paymentDueDay: (data['paymentDueDay'] as num?)?.toInt(),
+        bankAccount: data['accountNumber'] as String?,
+        address: data['address'] as String?,
+      );
 }

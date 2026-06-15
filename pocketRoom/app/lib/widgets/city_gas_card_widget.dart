@@ -1,7 +1,3 @@
-// 도시가스요금 카드 위젯 — CityGasCard(데이터)를 화면에 그리는 "액자"입니다.
-//
-// 회사명·당월 요금/사용량을 보여주고, 월별 추이 미니 차트(fl_chart)를 그립니다.
-// 실제 도시가스 연동은 stub 이라 더미 이력으로 채워집니다(Design 2.6 / Sequence 3.3).
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -16,11 +12,15 @@ import 'mini_trend_chart.dart';
 class CityGasCardWidget extends StatelessWidget {
   final CityGasCard data;
   final VoidCallback? onSettingPressed;
+  final VoidCallback? onRefreshPressed;
+  final bool isRefreshing;
 
   const CityGasCardWidget({
     super.key,
     required this.data,
     this.onSettingPressed,
+    this.onRefreshPressed,
+    this.isRefreshing = false,
   });
 
   String _won(int? won) =>
@@ -34,7 +34,6 @@ class CityGasCardWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── 헤더 ──────────────────────────────────────────
             Row(
               children: [
                 const CardIconBadge(
@@ -46,12 +45,11 @@ class CityGasCardWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        '도시가스',
-                        style: TextStyle(
+                      Text(
+                        '${DateTime.now().month}월 가스요금',
+                        style: const TextStyle(
                             fontSize: 17, fontWeight: FontWeight.bold),
                       ),
-                      // 회사명 (선택돼 있으면 표시)
                       if (data.gasCompany != null)
                         Text(
                           data.gasCompany!.displayName,
@@ -62,6 +60,19 @@ class CityGasCardWidget extends StatelessWidget {
                   ),
                 ),
                 LinkBadge(isLinked: data.isLinked),
+                if (onRefreshPressed != null && data.isLinked)
+                  IconButton(
+                    icon: isRefreshing
+                        ? const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.refresh, size: 20),
+                    color: AppTheme.textSecondary,
+                    tooltip: '도시가스요금 갱신',
+                    onPressed: isRefreshing ? null : onRefreshPressed,
+                  ),
                 CardMenuButton(
                   cardKind: CardKind.cityGas,
                   onSettingPressed: onSettingPressed,
@@ -69,7 +80,6 @@ class CityGasCardWidget extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            // ── 당월 요금 ─────────────────────────────────────
             Padding(
               padding: const EdgeInsets.only(right: 12),
               child: Row(
@@ -106,7 +116,6 @@ class CityGasCardWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            // ── 미니 차트 ─────────────────────────────────────
             Padding(
               padding: const EdgeInsets.only(right: 12),
               child: MiniTrendChart(

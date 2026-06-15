@@ -1,18 +1,16 @@
-// 월별 요금 이력 모델 — 전기/가스 카드의 월별 추이 그래프에 사용됩니다
 
-// 카드 종류 구분자
 enum CardType { electricity, cityGas }
 
 class BillRecord {
   final String recordId;
-  final String cardId;       // ElectricityCard.cardId 또는 CityGasCard.cardId
+  final String cardId;
   final CardType cardType;
   final int year;
   final int month;
-  final int amountWon;       // 요금 (원 단위 정수, 소수점 오차 방지)
-  final double? usageKwh;    // 전기 사용량 kWh (가스는 null)
-  final double? usageM3;     // 가스 사용량 m³ (전기는 null)
-  final DateTime fetchedAt;  // 데이터 가져온 시각
+  final int amountWon;
+  final double? usageKwh;
+  final double? usageM3;
+  final DateTime fetchedAt;
 
   const BillRecord({
     required this.recordId,
@@ -49,6 +47,34 @@ class BillRecord {
         usageM3: map['usage_m3'] as double?,
         fetchedAt: DateTime.parse(map['fetched_at'] as String),
       );
+
+  factory BillRecord.fromServer({
+    required String cardId,
+    required CardType cardType,
+    required Map<String, dynamic> row,
+  }) {
+    double? toDouble(dynamic v) {
+      if (v == null) return null;
+      if (v is num) return v.toDouble();
+      return double.tryParse(v.toString());
+    }
+
+    return BillRecord(
+      recordId:
+          (row['id'] ?? '${cardId}_${row['year']}${row['month']}').toString(),
+      cardId: cardId,
+      cardType: cardType,
+      year: (row['year'] as num).toInt(),
+      month: (row['month'] as num).toInt(),
+      amountWon: (row['amount_won'] as num).toInt(),
+      usageKwh:
+          cardType == CardType.electricity ? toDouble(row['usage_kwh']) : null,
+      usageM3: cardType == CardType.cityGas ? toDouble(row['usage_m3']) : null,
+      fetchedAt: row['fetched_at'] != null
+          ? (DateTime.tryParse(row['fetched_at'].toString()) ?? DateTime.now())
+          : DateTime.now(),
+    );
+  }
 
   @override
   String toString() => 'BillRecord($year-$month, $amountWon원)';

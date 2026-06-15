@@ -1,6 +1,3 @@
-// schema.sql 을 읽어 DB 에 적용하는 1회성 스크립트.
-// 실행: `npm run db:init`  (이미 Render DB 에 붙는 .env 가 있어야 함)
-// IF NOT EXISTS 기반이라 여러 번 돌려도 안전합니다.
 
 require('dotenv').config();
 

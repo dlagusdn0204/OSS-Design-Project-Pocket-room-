@@ -1,5 +1,3 @@
-// 외부 계정(한전·도시가스) 연결 여부를 보여주는 작은 배지.
-// 전기/가스 카드 위젯이 공통으로 사용합니다.
 
 import 'package:flutter/material.dart';
 

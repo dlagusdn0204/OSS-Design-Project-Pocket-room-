@@ -1,9 +1,8 @@
-// 방(거주지) 정보 모델 — 사용자는 여러 개의 방을 등록할 수 있습니다
 
 class Room {
   final String roomId;
-  final String ownerId;  // User.id 참조
-  final String name;     // 방 이름 (예: "서울 자취방")
+  final String ownerId;
+  final String name;
   final DateTime createdAt;
 
   const Room({
@@ -13,7 +12,6 @@ class Room {
     required this.createdAt,
   });
 
-  // 이름만 바꾼 복사본 반환 (불변 객체 패턴)
   Room copyWith({String? name}) => Room(
         roomId: roomId,
         ownerId: ownerId,
